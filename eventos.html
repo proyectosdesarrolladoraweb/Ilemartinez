@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eventos y Shows | Portfolio Artístico</title>
+  
+  <!-- Tipografías Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,800;1,400&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Iconos FontAwesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    /* ==========================================================
+       VARIABLES Y ESTILOS BASE
+       ========================================================== */
+    :root {
+      --bg-dark: #0a0a0f;
+      --bg-card: #13131c;
+      --accent-pink: #ff2a85;
+      --accent-purple: #8a2be2;
+      --accent-gold: #ffd700;
+      --text-light: #ffffff;
+      --text-muted: #a0a0b8;
+      --gradient-accent: linear-gradient(135deg, #ff2a85 0%, #8a2be2 100%);
+      --gradient-gold: linear-gradient(135deg, #ffd700 0%, #ff8c00 100%);
+      --font-title: 'Playfair Display', serif;
+      --font-body: 'Poppins', sans-serif;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-light);
+      font-family: var(--font-body);
+      line-height: 1.6;
+      overflow-x: hidden;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* ==========================================================
+       NAVEGACIÓN
+       ========================================================== */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      background: rgba(10, 10, 15, 0.85);
+      backdrop-filter: blur(15px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 1rem 5%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .brand-logo {
+      font-family: var(--font-title);
+      font-size: 1.5rem;
+      font-weight: 800;
+      letter-spacing: 1px;
+      background: var(--gradient-accent);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .nav-menu {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-link {
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      transition: all 0.3s ease;
+      position: relative;
+      padding: 0.3rem 0;
+    }
+
+    .nav-link:hover,
+    .nav-link.active {
+      color: var(--text-light);
+    }
+
+    .nav-link.active::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: var(--gradient-accent);
+      border-radius: 2px;
+    }
+
+    .menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--text-light);
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    /* ==========================================================
+       CABECERA DE PÁGINA
+       ========================================================== */
+    .page-header {
+      padding: 140px 5% 30px;
+      text-align: center;
+      background: radial-gradient(circle at center, rgba(255, 42, 133, 0.12) 0%, transparent 70%);
+    }
+
+    .page-title {
+      font-family: var(--font-title);
+      font-size: 3rem;
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+    }
+
+    .page-title span {
+      background: var(--gradient-accent);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .page-subtitle {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* ==========================================================
+       FILTROS DE GALERÍA
+       ========================================================== */
+    .filter-container {
+      display: flex;
+      justify-content: center;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+      padding: 20px 5% 40px;
+    }
+
+    .filter-btn {
+      padding: 0.6rem 1.4rem;
+      border-radius: 50px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text-muted);
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .filter-btn:hover,
+    .filter-btn.active {
+      background: var(--gradient-accent);
+      color: #fff;
+      border-color: transparent;
+      box-shadow: 0 5px 15px rgba(255, 42, 133, 0.3);
+    }
+
+    /* ==========================================================
+       GRID DE GALERÍA DE EVENTOS
+       ========================================================== */
+    .gallery-section {
+      padding: 0 5% 80px;
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.8rem;
+    }
+
+    .gallery-item {
+      position: relative;
+      border-radius: 20px;
+      overflow: hidden;
+      aspect-ratio: 4/5;
+      cursor: pointer;
+      background: var(--bg-card);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+
+    .gallery-item.hide {
+      display: none;
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s ease;
+    }
+
+    .gallery-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(10, 10, 15, 0.95) 0%, rgba(10, 10, 15, 0.2) 60%, transparent 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 1.5rem;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .gallery-item:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+    }
+
+    .gallery-item:hover img {
+      transform: scale(1.1);
+    }
+
+    .gallery-item:hover .gallery-overlay {
+      opacity: 1;
+    }
+
+    .gallery-category {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--accent-pink);
+      font-weight: 700;
+      margin-bottom: 0.3rem;
+    }
+
+    .gallery-title {
+      font-family: var(--font-title);
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .gallery-date {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 0.2rem;
+    }
+
+    /* ==========================================================
+       MODAL LIGHTBOX
+       ========================================================== */
+    .modal {
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+      background: rgba(5, 5, 10, 0.95);
+      backdrop-filter: blur(20px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .modal.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-content {
+      position: relative;
+      max-width: 900px;
+      width: 100%;
+      max-height: 85vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .modal-img {
+      max-width: 100%;
+      max-height: 70vh;
+      border-radius: 16px;
+      object-fit: contain;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .modal-info {
+      margin-top: 1rem;
+      text-align: center;
+    }
+
+    .modal-title {
+      font-family: var(--font-title);
+      font-size: 1.5rem;
+      color: #fff;
+    }
+
+    .modal-desc {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: -40px;
+      right: 0;
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 2rem;
+      cursor: pointer;
+      transition: color 0.3s ease;
+    }
+
+    .modal-close:hover {
+      color: var(--accent-pink);
+    }
+
+    /* ==========================================================
+       FOOTER
+       ========================================================== */
+    footer {
+      margin-top: auto;
+      padding: 2rem 5%;
+      text-align: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+
+    /* ==========================================================
+       RESPONSIVE
+       ========================================================== */
+    @media (max-width: 768px) {
+      .menu-toggle {
+        display: block;
+      }
+
+      .nav-menu {
+        position: fixed;
+        top: 60px;
+        right: -100%;
+        width: 100%;
+        height: calc(100vh - 60px);
+        background: rgba(10, 10, 15, 0.98);
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 2rem;
+        transition: right 0.4s ease;
+      }
+
+      .nav-menu.active {
+        right: 0;
+      }
+
+      .page-title {
+        font-size: 2.3rem;
+      }
+
+      .gallery-overlay {
+        opacity: 1; /* Mantiene visible la descripción en táctil */
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVEGACIÓN MULTIPÁGINA -->
+  <nav class="navbar">
+    <a href="index.html" class="brand-logo">Ileana Martínez</a>
+    
+    <button class="menu-toggle" id="menuToggle" aria-label="Abrir Menú">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+
+    <ul class="nav-menu" id="navMenu">
+      <li><a href="index.html" class="nav-link">Inicio</a></li>
+      <li><a href="sobre-mi.html" class="nav-link">Sobre Mí</a></li>
+      <li><a href="eventos.html" class="nav-link active">Eventos y Shows</a></li>
+      <li><a href="contacto.html" class="nav-link">Contrataciones</a></li>
+    </ul>
+  </nav>
+
+  <!-- CABECERA DE PÁGINA -->
+  <header class="page-header">
+    <h1 class="page-title">Eventos & <span>Shows</span></h1>
+    <p class="page-subtitle">Una muestra de las presentaciones en vivo, festivales y eventos privados más destacados.</p>
+  </header>
+
+  <!-- BOTONES DE FILTRO -->
+  <div class="filter-container">
+    <button class="filter-btn active" data-filter="todos">Todos</button>
+    <button class="filter-btn" data-filter="festivales">Festivales</button>
+    <button class="filter-btn" data-filter="shows">Shows</button>
+    <button class="filter-btn" data-filter="prensa">Prensa & TV</button>
+  </div>
+
+  <!-- GALERÍA DE FOTOS -->
+  <main class="gallery-section">
+    <div class="gallery-grid" id="galleryGrid">
+
+      <!-- Item 1 -->
+      <div class="gallery-item" data-category="festivales" data-title="Fiesta del Poncho 2026" data-desc="En el Escenario Mercado Cultural ante más de 5,000 personas.">
+        <img src="ile-poncho2026.PNG" alt="Fiesta Nacional e Internacional del Poncho 2026">
+        <div class="gallery-overlay">
+          <span class="gallery-category">Festival</span>
+          <h3 class="gallery-title">Fiesta del Poncho 2026</h3>
+          <span class="gallery-date"><i class="fa-regular fa-calendar"></i> Julio 2026</span>
+        </div>
+      </div>
+
+      <!-- Item 2 -->
+      <div class="gallery-item" data-category="festivales" data-title="Fiesta Nacional e Internacional del Cabrito 2026" data-desc="Show de cuarteto y bailable para la Fiesta Nacional del Cabrito en Recreo, Catamarca.">
+        <img src="ile-festivaldelcabrito.PNG" alt="Fiesta Nacional e Internacional del Cabrito 2026">
+        <div class="gallery-overlay">
+          <span class="gallery-category">Festival</span>
+          <h3 class="gallery-title">Fiesta Nacional e Internacional del Cabrito 2026</h3>
+          <span class="gallery-date"><i class="fa-regular fa-calendar"></i> Febrero 2026</span>
+        </div>
+      </div>
+
+      <!-- Item 3 -->
+      <div class="gallery-item" data-category="festivales" data-title="Feria del Patio Edición Navidad 2025" data-desc="Presentación de show de cuarteto con banda completa en vivo.">
+        <img src="ile-feriapatio.PNG" alt="feria del patio">
+        <div class="gallery-overlay">
+          <span class="gallery-category">Festival</span>
+          <h3 class="gallery-title">Feria del Patio Edición Navidad 2025</h3>
+          <span class="gallery-date"><i class="fa-regular fa-calendar"></i> Diciembre 2025</span>
+        </div>
+      </div>
+
+      <!-- Item 4 -->
+      <div class="gallery-item" data-category="prensa" data-title="Streaming en vivo" data-desc="Streaming en vivo en Alta Data Catamarca.">
+        <img src="ile-inforama.PNG" alt="En Inforama Catamarca">
+        <div class="gallery-overlay">
+          <span class="gallery-category">Prensa</span>
+          <h3 class="gallery-title"> En Alta Data Catamarca</h3>
+          <span class="gallery-date"><i class="fa-regular fa-calendar"></i> Abril 2026</span>
+        </div>
+      </div>
+
+      <!-- Item 5 -->
+      <div class="gallery-item" data-category="shows" data-title="Soporte - Show de Desakta2" data-desc="Soporte de show en vivo de Desakta2 en el Anfiteatro Polideportivo Municipal, Recreo, Catamarca.">
+        <img src="ile-desakta2.PNG" alt="Show de Soporte para Desakta2">
+        <div class="gallery-overlay">
+          <span class="gallery-category">Show</span>
+          <h3 class="gallery-title">Soporte de show en vivo de Desakta2</h3>
+          <span class="gallery-date"><i class="fa-regular fa-calendar"></i> Septiembre 2026</span>
+        </div>
+      </div>
+
+      <!-- Item 6 -->
+      <div class="gallery-item" data-category="prensa" data-title="Programa - Ritmo Popular" data-desc="Programa Ritmo Popular, con transmisión en vivo para televisión regional en Catamarca.">
+        <img src="ile-ritmopopular.jpeg" alt="Programa en vivo Ritmo Popular">
+        <div class="gallery-overlay">
+          <span class="gallery-category">TV</span>
+          <h3 class="gallery-title">Mi primer paso en Ritmo Popular</h3>
+          <span class="gallery-date"><i class="fa-regular fa-calendar"></i> Octubre 2026</span>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- MODAL VISOR DE FOTOS -->
+  <div class="modal" id="photoModal">
+    <div class="modal-content">
+      <button class="modal-close" id="modalClose">&times;</button>
+      <img src="" alt="" class="modal-img" id="modalImg">
+      <div class="modal-info">
+        <h3 class="modal-title" id="modalTitle"></h3>
+        <p class="modal-desc" id="modalDesc"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>&copy; 2026 Ileana Martínez. Todos los derechos reservados.</p>
+  </footer>
+
+  <!-- SCRIPTS INTERACTIVOS -->
+  <script>
+    // Menú Responsive
+    const menuToggle = document.getElementById('menuToggle');
+    const navMenu = document.getElementById('navMenu');
+
+    menuToggle.addEventListener('click', () => {
+      navMenu.classList.toggle('active');
+      const icon = menuToggle.querySelector('i');
+      if (navMenu.classList.contains('active')) {
+        icon.classList.remove('fa-bars');
+        icon.classList.add('fa-xmark');
+      } else {
+        icon.classList.remove('fa-xmark');
+        icon.classList.add('fa-bars');
+      }
+    });
+
+    // Filtros de Galería
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const galleryItems = document.querySelectorAll('.gallery-item');
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        const filter = btn.getAttribute('data-filter');
+
+        galleryItems.forEach(item => {
+          if (filter === 'todos' || item.getAttribute('data-category') === filter) {
+            item.classList.remove('hide');
+          } else {
+            item.classList.add('hide');
+          }
+        });
+      });
+    });
+
+    // Modal Lightbox
+    const modal = document.getElementById('photoModal');
+    const modalImg = document.getElementById('modalImg');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalDesc = document.getElementById('modalDesc');
+    const modalClose = document.getElementById('modalClose');
+
+    galleryItems.forEach(item => {
+      item.addEventListener('click', () => {
+        const imgSrc = item.querySelector('img').src;
+        const title = item.getAttribute('data-title');
+        const desc = item.getAttribute('data-desc');
+
+        modalImg.src = imgSrc;
+        modalTitle.textContent = title;
+        modalDesc.textContent = desc;
+
+        modal.classList.add('active');
+      });
+    });
+
+    modalClose.addEventListener('click', () => {
+      modal.classList.remove('active');
+    });
+
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.classList.remove('active');
+      }
+    });
+  </script>
+</body>
+</html>

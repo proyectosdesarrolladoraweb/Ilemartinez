@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contrataciones | Portfolio Artístico</title>
+  
+  <!-- Tipografías Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,800;1,400&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Iconos FontAwesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    /* ==========================================================
+       VARIABLES Y ESTILOS BASE
+       ========================================================== */
+    :root {
+      --bg-dark: #0a0a0f;
+      --bg-card: #13131c;
+      --accent-pink: #ff2a85;
+      --accent-purple: #8a2be2;
+      --accent-gold: #ffd700;
+      --accent-green: #25d366; /* WhatsApp Green */
+      --text-light: #ffffff;
+      --text-muted: #a0a0b8;
+      --gradient-accent: linear-gradient(135deg, #ff2a85 0%, #8a2be2 100%);
+      --gradient-whatsapp: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
+      --gradient-gmail: linear-gradient(135deg, #ea4335 0%, #c5221f 100%);
+      --font-title: 'Playfair Display', serif;
+      --font-body: 'Poppins', sans-serif;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-light);
+      font-family: var(--font-body);
+      line-height: 1.6;
+      overflow-x: hidden;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* ==========================================================
+       NAVEGACIÓN
+       ========================================================== */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      background: rgba(10, 10, 15, 0.85);
+      backdrop-filter: blur(15px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 1rem 5%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .brand-logo {
+      font-family: var(--font-title);
+      font-size: 1.5rem;
+      font-weight: 800;
+      letter-spacing: 1px;
+      background: var(--gradient-accent);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .nav-menu {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-link {
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      transition: all 0.3s ease;
+      position: relative;
+      padding: 0.3rem 0;
+    }
+
+    .nav-link:hover,
+    .nav-link.active {
+      color: var(--text-light);
+    }
+
+    .nav-link.active::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: var(--gradient-accent);
+      border-radius: 2px;
+    }
+
+    .menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--text-light);
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    /* ==========================================================
+       CABECERA DE PÁGINA
+       ========================================================== */
+    .page-header {
+      padding: 140px 5% 40px;
+      text-align: center;
+      background: radial-gradient(circle at center, rgba(37, 211, 102, 0.1) 0%, transparent 70%);
+    }
+
+    .page-title {
+      font-family: var(--font-title);
+      font-size: 3rem;
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+    }
+
+    .page-title span {
+      background: var(--gradient-accent);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .page-subtitle {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      max-width: 550px;
+      margin: 0 auto;
+    }
+
+    /* ==========================================================
+       SECCIÓN DE CONTRATACIONES Y CONTACTO
+       ========================================================== */
+    .contact-section {
+      padding: 20px 5% 80px;
+      max-width: 900px;
+      margin: 0 auto;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .contact-cards-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .contact-card {
+      background: var(--bg-card);
+      border-radius: 24px;
+      padding: 2.5rem 2rem;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+      transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .contact-card:hover {
+      transform: translateY(-8px);
+    }
+
+    .contact-card.whatsapp-card:hover {
+      border-color: rgba(37, 211, 102, 0.4);
+      box-shadow: 0 20px 40px rgba(37, 211, 102, 0.2);
+    }
+
+    .contact-card.gmail-card:hover {
+      border-color: rgba(234, 67, 53, 0.4);
+      box-shadow: 0 20px 40px rgba(234, 67, 53, 0.2);
+    }
+
+    .card-icon-box {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      margin-bottom: 1.5rem;
+      color: #fff;
+    }
+
+    .whatsapp-card .card-icon-box {
+      background: var(--gradient-whatsapp);
+      box-shadow: 0 10px 25px rgba(37, 211, 102, 0.4);
+    }
+
+    .gmail-card .card-icon-box {
+      background: var(--gradient-gmail);
+      box-shadow: 0 10px 25px rgba(234, 67, 53, 0.4);
+    }
+
+    .card-title {
+      font-family: var(--font-title);
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .card-description {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-bottom: 1.8rem;
+    }
+
+    .card-detail {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 1.5rem;
+      letter-spacing: 0.5px;
+      word-break: break-all;
+    }
+
+    .btn-action {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.8rem;
+      width: 100%;
+      padding: 0.9rem 1.8rem;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: none;
+    }
+
+    .btn-whatsapp {
+      background: var(--gradient-whatsapp);
+      color: #fff;
+      box-shadow: 0 8px 20px rgba(37, 211, 102, 0.3);
+    }
+
+    .btn-whatsapp:hover {
+      box-shadow: 0 12px 28px rgba(37, 211, 102, 0.5);
+      transform: translateY(-2px);
+    }
+
+    .btn-gmail {
+      background: var(--gradient-gmail);
+      color: #fff;
+      box-shadow: 0 8px 20px rgba(234, 67, 53, 0.3);
+    }
+
+    .btn-gmail:hover {
+      box-shadow: 0 12px 28px rgba(234, 67, 53, 0.5);
+      transform: translateY(-2px);
+    }
+
+    /* Notificación flotante de copiado */
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: var(--bg-card);
+      border: 1px solid var(--accent-pink);
+      color: #fff;
+      padding: 0.8rem 1.8rem;
+      border-radius: 50px;
+      font-size: 0.9rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      opacity: 0;
+      transition: all 0.4s ease;
+      z-index: 2000;
+    }
+
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    /* Banner informativo */
+    .booking-info-box {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px dashed rgba(255, 255, 255, 0.15);
+      border-radius: 20px;
+      padding: 1.5rem;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    .booking-info-box i {
+      color: var(--accent-gold);
+      margin-right: 0.5rem;
+    }
+
+    /* ==========================================================
+       FOOTER
+       ========================================================== */
+    footer {
+      margin-top: auto;
+      padding: 2rem 5%;
+      text-align: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+
+    /* ==========================================================
+       RESPONSIVE
+       ========================================================== */
+    @media (max-width: 768px) {
+      .menu-toggle {
+        display: block;
+      }
+
+      .nav-menu {
+        position: fixed;
+        top: 60px;
+        right: -100%;
+        width: 100%;
+        height: calc(100vh - 60px);
+        background: rgba(10, 10, 15, 0.98);
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 2rem;
+        transition: right 0.4s ease;
+      }
+
+      .nav-menu.active {
+        right: 0;
+      }
+
+      .page-title {
+        font-size: 2.3rem;
+      }
+
+      .contact-card {
+        padding: 2rem 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVEGACIÓN MULTIPÁGINA -->
+  <nav class="navbar">
+    <a href="index.html" class="brand-logo">Ileana Martínez</a>
+    
+    <button class="menu-toggle" id="menuToggle" aria-label="Abrir Menú">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+
+    <ul class="nav-menu" id="navMenu">
+      <li><a href="index.html" class="nav-link">Inicio</a></li>
+      <li><a href="sobre-mi.html" class="nav-link">Sobre Mí</a></li>
+      <li><a href="eventos.html" class="nav-link">Eventos y Shows</a></li>
+      <li><a href="contacto.html" class="nav-link active">Contrataciones</a></li>
+    </ul>
+  </nav>
+
+  <!-- CABECERA -->
+  <header class="page-header">
+    <h1 class="page-title">Contrataciones & <span>Contacto</span></h1>
+    <p class="page-subtitle">Comunicate directamente para consultar disponibilidad, cotizaciones y fechas para tus eventos.</p>
+  </header>
+
+  <!-- SECCIÓN PRINCIPAL DE CONTACTO DIRECTO -->
+  <main class="contact-section">
+    
+    <div class="contact-cards-container">
+      
+      <!-- OPCIÓN 1: WHATSAPP DIRECTO -->
+      <div class="contact-card whatsapp-card">
+        <div class="card-icon-box">
+          <i class="fa-brands fa-whatsapp"></i>
+        </div>
+        <h2 class="card-title">WhatsApp Directo</h2>
+        <p class="card-description">Respuesta inmediata para cotizaciones y fechas disponibles.</p>
+        <div class="card-detail">+54 9 383 2436130</div>
+        <a href="https://wa.me/5493832436130?text=Hola!%20Me%20gustaría%20consultar%20por%20una%20contratación%20para%20un%20evento." target="_blank" class="btn-action btn-whatsapp">
+          <i class="fa-brands fa-whatsapp"></i> Chatear por WhatsApp
+        </a>
+      </div>
+
+    </div>
+
+    <!-- NOTA INFORMATIVA -->
+    <div class="booking-info-box">
+      <p><i class="fa-solid fa-circle-info"></i> Recomendamos consultar con anticipación para reservar fechas de temporada o fines de semana.</p>
+    </div>
+
+  </main>
+
+  <!-- TOAST / NOTIFICACIÓN FLOTANTE -->
+  <div class="toast" id="toast">
+    <i class="fa-solid fa-circle-check" style="color: var(--accent-green);"></i>
+    <span>¡Correo copiado al portapapeles!</span>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>&copy; 2026 Ileana Martínez. Todos los derechos reservados.</p>
+  </footer>
+
+  <!-- SCRIPT PARA INTERACCIONES -->
+  <script>
+    // Menú Hamburguesa Responsive
+    const menuToggle = document.getElementById('menuToggle');
+    const navMenu = document.getElementById('navMenu');
+
+    menuToggle.addEventListener('click', () => {
+      navMenu.classList.toggle('active');
+      const icon = menuToggle.querySelector('i');
+      if (navMenu.classList.contains('active')) {
+        icon.classList.remove('fa-bars');
+        icon.classList.add('fa-xmark');
+      } else {
+        icon.classList.remove('fa-xmark');
+        icon.classList.add('fa-bars');
+      }
+    });
+
+    // Función para copiar correo de Gmail al portapapeles
+    const copyEmailBtn = document.getElementById('copyEmailBtn');
+    const emailText = document.getElementById('emailText').innerText;
+    const toast = document.getElementById('toast');
+
+    copyEmailBtn.addEventListener('click', () => {
+      navigator.clipboard.writeText(emailText).then(() => {
+        // Mostrar notificación tipo Toast
+        toast.classList.add('show');
+        setTimeout(() => {
+          toast.classList.remove('show');
+        }, 3000);
+      }).catch(err => {
+        // Fallback en caso de bloqueo de permisos
+        window.location.href = `mailto:${emailText}`;
+      });
+    });
+  </script>
+</body>
+</html>
